@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@chakra-ui/icons": "^2.0.3",
     "@chakra-ui/react": "^2.2.1",
     "@emotion/react": "^11.1.4",
     "@emotion/styled": "^11.0.0",
@@ -21,12 +22,14 @@
     "react-draggable": "^4.4.3",
     "react-feather": "^2.0.9",
     "react-resizable": "^1.11.0",
-    "recoil": "^0.7.4"
+    "recoil": "^0.7.4",
+    "recoilize": "^3.1.6"
   },
   "devDependencies": {
     "@types/node": "18.0.1",
     "@types/react": "18.0.14",
     "@types/react-dom": "18.0.5",
+    "@types/recoilize": "^0.8.0",
     "eslint": "8.19.0",
     "eslint-config-next": "12.2.0",
     "typescript": "4.7.4"

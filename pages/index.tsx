@@ -1,12 +1,19 @@
 import React from 'react';
 import type { NextPage } from 'next';
-import Canvas from './Canvas';
-import styles from '../styles/Home.module.css';
+import { useRouter } from 'next/router';
+import { Link, List, ListItem, Text } from '@chakra-ui/react';
 
 const Home: NextPage = () => {
+  const router = useRouter();
+
   return (
-    <div className={styles.container}>
-      <Canvas />
+    <div>
+      <Text fontSize="2em">Recoil Practice</Text>
+      <List spacing={3}>
+        <ListItem onClick={() => router.push('/basic-todo-atom')}>
+          <Link>Basic Todo using an atom</Link>
+        </ListItem>
+      </List>
     </div>
   );
 };
