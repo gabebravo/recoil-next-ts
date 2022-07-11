@@ -1,5 +1,5 @@
 import { useSetRecoilState } from 'recoil';
-import todosAtom from '../atoms/todosAtom';
+import todosAtom from '../recoil/atoms/todosAtom';
 import TodoType from '../types/TodoType';
 import {
   Box,
@@ -30,7 +30,7 @@ const TodoItem = ({ todo }: { todo: TodoType }) => {
     setTodos((todos: any) => {
       const newTodos = todos.map((todo: TodoType) => {
         if (todo.id === id) {
-          return { ...todo, completed: !todo.completed };
+          return { ...todo, complete: !todo.complete };
         }
         return todo;
       });
@@ -41,7 +41,7 @@ const TodoItem = ({ todo }: { todo: TodoType }) => {
   return (
     <ListItem padding={2}>
       <Box display="flex" alignItems="center">
-        {todo.completed ? (
+        {todo.complete ? (
           <ListIcon as={CheckCircleIcon} color="green.400" w={5} h={5} />
         ) : (
           <ListIcon as={QuestionOutlineIcon} color="orange.400" w={5} h={5} />
@@ -53,7 +53,7 @@ const TodoItem = ({ todo }: { todo: TodoType }) => {
           size="xs"
           onClick={() => markDone(todo.id)}
         >
-          {todo.completed ? 'Unmark done' : 'Mark done'}
+          {todo.complete ? 'Unmark done' : 'Mark done'}
         </Button>
         <Icon as={DeleteIcon} w={4} h={4} onClick={() => deleteTodo(todo.id)} />
       </Box>

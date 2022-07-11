@@ -1,13 +1,12 @@
 import { useRecoilValue } from 'recoil';
 import TodoType from '../types/TodoType';
-import todosAtom from '../atoms/todosAtom';
+import todosAtom from '../recoil/atoms/todosAtom';
 import TodoItem from './TodoItem';
 import { OrderedList } from '@chakra-ui/react';
 
 function Todolist() {
   const todos = useRecoilValue(todosAtom);
 
-  console.log('todos', todos);
   return (
     <OrderedList>
       {todos?.map((todo: TodoType) => (

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Button, Flex } from '@chakra-ui/react';
 import { useSetRecoilState } from 'recoil';
-import todosAtom from '../atoms/todosAtom';
+import todosAtom from '../recoil/atoms/todosAtom';
 import TodoType from '../types/TodoType';
 import { isEmptyOrSpaces } from '../utils';
 
