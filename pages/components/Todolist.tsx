@@ -7,6 +7,7 @@ import { OrderedList } from '@chakra-ui/react';
 function Todolist() {
   const todos = useRecoilValue(todosAtom);
 
+  console.log('todos', todos);
   return (
     <OrderedList>
       {todos?.map((todo: TodoType) => (

@@ -3,6 +3,7 @@ import { Box, Button, Flex } from '@chakra-ui/react';
 import { useSetRecoilState } from 'recoil';
 import todosAtom from '../atoms/todosAtom';
 import TodoType from '../types/TodoType';
+import { isEmptyOrSpaces } from '../utils';
 
 const TodoForm = () => {
   const todoInputRef = React.useRef<HTMLInputElement>(null);
@@ -13,10 +14,13 @@ const TodoForm = () => {
     const todoValue = todoInputRef?.current?.value;
 
     // @ts-ignore
-    setTodos((todos: TodoType[]) => [
-      ...todos,
-      { id: todos.length + 1, text: todoValue, completed: false },
-    ]);
+    if (!isEmptyOrSpaces(todoValue)) {
+      // @ts-ignore
+      setTodos((todos: TodoType[]) => [
+        ...todos,
+        { id: todos.length + 1, text: todoValue, completed: false },
+      ]);
+    }
     // @ts-ignore
     todoInputRef.current.value = '';
   }

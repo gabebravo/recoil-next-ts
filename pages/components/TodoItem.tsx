@@ -1,5 +1,5 @@
-// import { useRecoilValue } from 'recoil';
-// import todosAtom from '../atoms/todosAtom';
+import { useSetRecoilState } from 'recoil';
+import todosAtom from '../atoms/todosAtom';
 import TodoType from '../types/TodoType';
 import {
   Box,
@@ -17,6 +17,27 @@ import {
 } from '@chakra-ui/icons';
 
 const TodoItem = ({ todo }: { todo: TodoType }) => {
+  const setTodos = useSetRecoilState(todosAtom);
+
+  const deleteTodo = (id: number): void => {
+    setTodos((todos) => {
+      const newTodos = todos.filter((todo: TodoType) => todo.id !== id);
+      return newTodos;
+    });
+  };
+
+  const markDone = (id: number): void => {
+    setTodos((todos: any) => {
+      const newTodos = todos.map((todo: TodoType) => {
+        if (todo.id === id) {
+          return { ...todo, completed: !todo.completed };
+        }
+        return todo;
+      });
+      return newTodos;
+    });
+  };
+
   return (
     <ListItem padding={2}>
       <Box display="flex" alignItems="center">
@@ -26,10 +47,15 @@ const TodoItem = ({ todo }: { todo: TodoType }) => {
           <ListIcon as={QuestionOutlineIcon} color="orange.400" w={5} h={5} />
         )}
         <Text w={300}>{todo.text}</Text>
-        <Button m={2} colorScheme="blue" size="xs">
+        <Button
+          m={2}
+          colorScheme="blue"
+          size="xs"
+          onClick={() => markDone(todo.id)}
+        >
           {todo.completed ? 'Unmark done' : 'Mark done'}
         </Button>
-        <Icon as={DeleteIcon} w={4} h={4} />
+        <Icon as={DeleteIcon} w={4} h={4} onClick={() => deleteTodo(todo.id)} />
       </Box>
       <Divider w={450} />
     </ListItem>
