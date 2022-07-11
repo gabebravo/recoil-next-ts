@@ -15,7 +15,7 @@ const TodoForm = () => {
     // @ts-ignore
     setTodos((todos: TodoType[]) => [
       ...todos,
-      { id: todos.length + 1, text: todoValue },
+      { id: todos.length + 1, text: todoValue, completed: false },
     ]);
     // @ts-ignore
     todoInputRef.current.value = '';
