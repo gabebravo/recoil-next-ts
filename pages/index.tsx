@@ -13,6 +13,9 @@ const Home: NextPage = () => {
         <ListItem onClick={() => router.push('/basic-todo-atom')}>
           <Link>Basic Todo using an atom</Link>
         </ListItem>
+        <ListItem onClick={() => router.push('/atom-family-todo')}>
+          <Link>Todo atom family example</Link>
+        </ListItem>
       </List>
     </div>
   );
