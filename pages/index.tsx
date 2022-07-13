@@ -16,6 +16,9 @@ const Home: NextPage = () => {
         <ListItem onClick={() => router.push('/atom-family-todo')}>
           <Link>Todo atom family example</Link>
         </ListItem>
+        <ListItem onClick={() => router.push('/more-selectors')}>
+          <Link>More selectors</Link>
+        </ListItem>
       </List>
     </div>
   );
