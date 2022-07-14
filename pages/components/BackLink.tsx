@@ -3,11 +3,11 @@ import { useRouter } from 'next/router';
 import { Flex, Text } from '@chakra-ui/react';
 import { ArrowBackIcon } from '@chakra-ui/icons';
 
-const HomeLink = () => {
+const BackLink = ({ url }: { url: string }) => {
   const router = useRouter();
 
   return (
-    <Flex onClick={() => router.push('/')}>
+    <Flex onClick={() => router.push(url)}>
       <div>
         <ArrowBackIcon w={8} h={8} color="red.500" />
       </div>
@@ -18,4 +18,4 @@ const HomeLink = () => {
   );
 };
 
-export default HomeLink;
+export default BackLink;

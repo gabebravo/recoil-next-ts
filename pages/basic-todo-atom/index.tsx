@@ -1,6 +1,6 @@
 // import { css } from '@emotion/react';
 import { Box, Text } from '@chakra-ui/react';
-import HomeLink from '../components/HomeLink';
+import BackLink from '../components/BackLink';
 import TodoForm from '../components/TodoForm';
 import Todolist from '../components/Todolist';
 import TodoCount from '../components/TodoCount';
@@ -14,7 +14,7 @@ const BasicTodoAtom = () => {
   return (
     <div>
       <Box m="1em">
-        <HomeLink />
+        <BackLink url="/" />
         <Text fontSize="xl">Basic Todo Atom</Text>
         <ResetTodos />
       </Box>
