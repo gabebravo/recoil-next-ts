@@ -1,12 +1,19 @@
-import { Box, List, ListItem, Text } from '@chakra-ui/react';
-import { useRecoilValueLoadable } from 'recoil';
+import { Box, Button, List, ListItem, Text } from '@chakra-ui/react';
+import { useRecoilValueLoadable, useSetRecoilState } from 'recoil';
 import { useRouter } from 'next/router'; // custom hook to get route params
 import BackLink from '../components/BackLink';
 import { PokemonState } from './pokemonSelectors';
+import { PokemonFavesAtom } from './pokemonAtoms';
 
 const Pokemon = ({ name }: { name: string }) => {
+  const addPokemonToFaves = useSetRecoilState(PokemonFavesAtom);
   const pokemonData = useRecoilValueLoadable(PokemonState(name));
   const { base_experience, height, weight, sprites } = pokemonData.contents;
+
+  const handleAdd = () => {
+    // @ts-ignore
+    addPokemonToFaves((prevVal: any) => [...prevVal, pokemonData.contents]);
+  };
 
   switch (pokemonData.state) {
     case 'hasValue':
@@ -17,6 +24,14 @@ const Pokemon = ({ name }: { name: string }) => {
             <ListItem>{`Experience: ${base_experience}`}</ListItem>
             <ListItem>{`Height: ${height}`}</ListItem>
             <ListItem>{`Weight: ${weight}`}</ListItem>
+            <Button
+              colorScheme="cyan"
+              size="sm"
+              marginTop={2}
+              onClick={handleAdd}
+            >
+              Add To Favorites
+            </Button>
           </List>
         </Box>
       );
