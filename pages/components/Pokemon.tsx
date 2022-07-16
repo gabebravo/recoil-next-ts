@@ -2,12 +2,15 @@ import { Box, Button, List, ListItem } from '@chakra-ui/react';
 import { useRecoilState, useRecoilValueLoadable } from 'recoil';
 import { PokemonState } from '../pokemon-api/pokemonSelectors';
 import { PokemonFavesAtom } from '../pokemon-api/pokemonAtoms';
+import { useRouter } from 'next/router'; // custom hook to get route params
 
 const Pokemon = ({ name }: { name: string }) => {
+  const router = useRouter();
   const [pokemonFave, addPokemonToFaves] = useRecoilState(PokemonFavesAtom);
   const pokemonData = useRecoilValueLoadable(PokemonState(name));
   const { base_experience, height, weight, sprites } = pokemonData.contents;
   const wasAlreadyAdded = pokemonFave.includes(name);
+  const onFavesPage = /favorite/gi.test(router.asPath);
 
   const handleAdd = (): void => {
     addPokemonToFaves((prevVals: string[]) => [...prevVals, name]);
@@ -28,14 +31,26 @@ const Pokemon = ({ name }: { name: string }) => {
             <ListItem>{`Experience: ${base_experience}`}</ListItem>
             <ListItem>{`Height: ${height}`}</ListItem>
             <ListItem>{`Weight: ${weight}`}</ListItem>
-            <Button
-              colorScheme="cyan"
-              size="sm"
-              marginTop={2}
-              onClick={wasAlreadyAdded ? handleDelete : handleAdd}
-            >
-              {wasAlreadyAdded ? 'Remove From Favorites' : 'Add To Favorites'}
-            </Button>
+            {onFavesPage ? (
+              <Button
+                colorScheme="cyan"
+                size="sm"
+                marginTop={2}
+                onClick={handleDelete}
+              >
+                Remove
+              </Button>
+            ) : (
+              <Button
+                colorScheme="cyan"
+                size="sm"
+                marginTop={2}
+                onClick={handleAdd}
+                disabled={wasAlreadyAdded}
+              >
+                Add To Favorites
+              </Button>
+            )}
           </List>
         </Box>
       );
