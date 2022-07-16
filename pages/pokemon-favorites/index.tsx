@@ -1,22 +1,22 @@
-import { Box, List, ListItem, Text } from '@chakra-ui/react';
+import { List, ListItem, Text } from '@chakra-ui/react';
 import { useRecoilValue } from 'recoil';
 import BackLink from '../components/BackLink';
 import { PokemonFavesAtom } from '../pokemon-api/pokemonAtoms';
+import Pokemon from '../components/Pokemon';
 
 const PokemonFavesList = () => {
   const pokemonFavorites = useRecoilValue(PokemonFavesAtom);
 
-  return (
+  return pokemonFavorites.length > 0 ? (
     <List>
-      {pokemonFavorites.map((pk: any) => (
-        <Box key={pk.id}>
-          <img src={pk.sprites.front_default} alt={`${name} pokemon image`} />
-          <ListItem>{`Experience: ${pk.base_experience}`}</ListItem>
-          <ListItem>{`Height: ${pk.height}`}</ListItem>
-          <ListItem>{`Weight: ${pk.weight}`}</ListItem>
-        </Box>
+      {pokemonFavorites.map((pk: string) => (
+        <ListItem key={pk}>
+          <Pokemon name={pk} />
+        </ListItem>
       ))}
     </List>
+  ) : (
+    <div>You have no Favorite Pokemon yet</div>
   );
 };
 
