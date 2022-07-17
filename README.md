@@ -10,6 +10,8 @@
 - AtomFamily :
   - use this when state is a **reused value instance** (a list of all the same type)
   - requires a unique ID to be passed to it
+- Atom Concepts -- - Atom Effects : these are used to send data upstream to the remote source (persists data to the DB). They have a set of functions that will get called anytime the value of the atom changes. - Atom Effect **trick for logging** :
+  ` export const shoppingListState = atom<ItemType[]>({ key: 'shoppingList', default: [], effects_UNSTABLE: [ ({ onSet }) => { onSet((newShoppingList) => { // logs anytime atom state changes. newShoppingList = updated version console.log('newShoppingList', newShoppingList); }); }, ], }); `
 
 ##
 
