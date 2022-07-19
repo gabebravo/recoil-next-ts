@@ -11,7 +11,7 @@
 - **RECOMMENDATION :** Use Async Selectors when you need to fetch some state asynchronously and you know that state **IS NOT** going to change given the same input params
 
 2. **Atom Effects** : the whole idea for Async Selectors is that you don't assume that the same inputs will always give you back the same outputs.
-   - **RECOMMENDATION :** Use Async Selectors when you need to fetch some state asynchronously and you know that state **IS** going to change given the same input params
+- **RECOMMENDATION :** Use Async Selectors when you need to fetch some state asynchronously and you know that state **IS** going to change given the same input params
 
 ### When to use which: state, hook, util, async
 
