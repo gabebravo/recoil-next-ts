@@ -26,6 +26,12 @@ class CachedAPI {
     const items = await this.getItems();
     return items[id];
   }
+
+  // TRIGGER A NEW API CALL
+  // async onRefresh(id: number) {
+  //   const items = await this.getItems();
+  //   return items[id];
+  // }
 }
 
 /* WHAT THIS IS DOING : caching data and returning it
@@ -56,6 +62,12 @@ export const itemState = atomFamily<ItemType, number>({
   effects_UNSTABLE: (id) => [
     ({ onSet, setSelf, trigger }) => {
       setSelf(cachedAPI.getItem(id));
+
+      // TRIGGER A NEW API CALL
+      // cachedAPI.onRefresh((newItem) => {
+      //   console.log('item changes', newItem)
+      //   setSelf(newItem)
+      // })
 
       onSet((item, oldItem) => {
         // optimization to avoid calling the API multiple times uneccisarily

@@ -1,5 +1,18 @@
 ## Recoil Notes
 
+## Async Selectors vs Atom Effects
+
+1. **Async Selectors** : the whole idea for Selectors is that for the same inputs, you should always get back the same outputs.
+   - This means that if the data from your api changed during the session, the user will not see the updated data because the selector has no way of knowing it has changed.
+   - Thus, Async Selectors are not meant to be used for fetching data that may change in the lifetime of the application.
+   - Rather they are meant for deriving one bit of state from another bit of state, it and assumes the derivation will always give you back the same result.
+   - The only way to do this is by using an intermediate selector. Basically, manually changing the state of an atom arbitrarily to then trigger a new call. But that's kind of hacky.
+
+- **RECOMMENDATION :** Use Async Selectors when you need to fetch some state asynchronously and you know that state **IS NOT** going to change given the same input params
+
+2. **Atom Effects** : the whole idea for Async Selectors is that you don't assume that the same inputs will always give you back the same outputs.
+   - **RECOMMENDATION :** Use Async Selectors when you need to fetch some state asynchronously and you know that state **IS** going to change given the same input params
+
 ### When to use which: state, hook, util, async
 
 #### Atoms
@@ -11,7 +24,7 @@
   - use this when state is a **reused value instance** (a list of all the same type)
   - requires a unique ID to be passed to it
 - Atom Concepts -- - Atom Effects : these are used to send data upstream to the remote source (persists data to the DB). They have a set of functions that will get called anytime the value of the atom changes. - Atom Effect **trick for logging** :
-  ` export const shoppingListState = atom<ItemType[]>({ key: 'shoppingList', default: [], effects_UNSTABLE: [ ({ onSet }) => { onSet((newShoppingList) => { // logs anytime atom state changes. newShoppingList = updated version console.log('newShoppingList', newShoppingList); }); }, ], }); `
+  `export const shoppingListState = atom<ItemType[]>({ key: 'shoppingList', default: [], effects_UNSTABLE: [ ({ onSet }) => { onSet((newShoppingList) => { // logs anytime atom state changes. newShoppingList = updated version console.log('newShoppingList', newShoppingList); }); }, ], });`
 
 ##
 
