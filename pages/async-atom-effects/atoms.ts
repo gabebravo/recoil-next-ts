@@ -1,16 +1,23 @@
-import { atom, AtomEffect, atomFamily, DefaultValue } from 'recoil';
+import { shoppingListAPI } from './fakeAPI';
+import { atom, atomFamily, DefaultValue } from 'recoil';
 
 type ItemType = {
   label: string;
   checked: boolean;
 };
 
+// NOTE : for an async atom effect calling an API, you don't do an async/await.
+// instead you pass the promise to the setSelf function (as done on line 19)
+// and when the promise resolves it will update the atom state.
 export const idsState = atom<number[]>({
   key: 'ids',
   default: [],
   effects_UNSTABLE: [
-    () => {
-      // TODO: Fetch a list of item ids from the server
+    ({ setSelf }) => {
+      const itemsPromise = shoppingListAPI.getItems().then((items) => {
+        return Object.keys(items).map((id) => parseInt(id));
+      });
+      setSelf(itemsPromise);
     },
   ],
 });
@@ -19,26 +26,26 @@ export const itemState = atomFamily<ItemType, number>({
   key: 'item',
   default: { label: '', checked: false },
   effects_UNSTABLE: (id) => [
-    () => {
-      // TODO:
-      // 1. Fetch individual item data from the API and initialise the atoms
-      // 2. Update/create individual item data via the API
+    ({ onSet, setSelf }) => {
+      // onSet runs once on initialization.
+      // gets item from api and sets the atom to that value.
+      const itemPromise = shoppingListAPI.getItem(id).then((item) => {
+        if (item === undefined) return new DefaultValue();
+        else return item;
+      });
+      // for an async atom effect you pass the promise to the setSelf function
+      setSelf(itemPromise);
+
+      // onSet will get called each time the atomFamily setter is called (create/update)
+      onSet((item) => {
+        if (item instanceof DefaultValue) {
+          // a hack to clear items from localStorage
+          shoppingListAPI.deleteItem(id);
+        } else {
+          // if its a new item
+          shoppingListAPI.createOrUpdateItem(id, item);
+        }
+      });
     },
   ],
 });
-
-// WHAT YOU WOULD DO IF YOU WERENT USING NEXT JS
-// const localPersist: AtomEffect<any> = ({ onSet, setSelf, node }) => {
-//   const storedItems = window.localStorage.getItem(node.key);
-//   if (storedItems != null) {
-//     setSelf(JSON.parse(storedItems));
-//   }
-
-//   onSet((newItems) => {
-//     if (newItems instanceof DefaultValue) {
-//       localStorage.removeItem(node.key);
-//     } else {
-//       localStorage.setItem(node.key, JSON.stringify(newItems));
-//     }
-//   });
-// };

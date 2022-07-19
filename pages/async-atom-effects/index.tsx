@@ -32,7 +32,6 @@ const AtomEffects = () => {
     set(itemState(nextId), { label, checked: false });
   });
 
-  console.log('ids', ids);
   return (
     <Container onClear={clearList}>
       {ids.map((id) => (
